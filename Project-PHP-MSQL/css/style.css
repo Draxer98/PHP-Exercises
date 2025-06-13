@@ -1,0 +1,61 @@
+@font-face {
+    font-family: "Bebas Neue";
+    src: url("fonts/BebasNeue-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 100px;
+    text-align: center;
+}
+
+i.fa-solid {
+    margin: 5px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.table-dark{
+    background-color: #343a40;
+    color:white;
+    border: 1px solid #454d55;
+}
+
+.table-striped tr:nth-child(odd) {
+    background-color: #454d55;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #343a40;
+}
+
+.table td, .table th{
+    padding: 10px;
+    border: 1px solid #454d55;
+    text-align: center;
+}
+
+.caption {
+    caption-side: top;
+    font-weight: bold;
+    color: black;
+}
+
+.table thead th.ASC:after, .table thead th.DESC:after {
+    content: '↓';
+    padding: 3px;
+}
+
+.table thead th.DESC:after {
+    content: '↑';
+}
