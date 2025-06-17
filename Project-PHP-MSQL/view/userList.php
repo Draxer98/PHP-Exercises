@@ -1,16 +1,38 @@
 <?php
-$orderDirClass = $orderDir;
-$orderDir = $orderDir === 'ASC' ? 'DESC' : 'ASC';
+$currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
 ?>
+
 <table class="table table-dark table-striped">
-    <caption class="caption">| USERS LIST |</caption>
+    <caption class="caption"><i class="fa-solid fa-users"></i>| USERS LIST | <i class="founds"> <?= $totalRecords ?> records found </i> </caption>
     <thead>
         <tr>
-            <th class="<?=$orderBy === 'id'? $orderDirClass : ''?>"><a href="?orderBy=id&orderDir=<?=$orderDir?>">ID</a></th>
-            <th class="<?=$orderBy === 'username'? $orderDirClass : ''?>"><a href="?orderBy=username&orderDir=<?=$orderDir?>">NAME</a></th>
-            <th class="<?=$orderBy === 'email'? $orderDirClass : ''?>"><a href="?orderBy=email&orderDir=<?=$orderDir?>">EMAIL</a></th>
-            <th class="<?=$orderBy === 'fiscalCode'? $orderDirClass : ''?>"><a href="?orderBy=fiscalCode&orderDir=<?=$orderDir?>">FISCAL CODE</a></th>
-            <th class="<?=$orderBy === 'age'? $orderDirClass : ''?>"><a href="?orderBy=age&orderDir=<?=$orderDir?>">AGE</a></th>
+            <th class="<?= $orderBy === 'id' ? $currentOrderDir : '' ?>">
+                <a>ID</a>
+            </th>
+
+            <th class="<?= $orderBy === 'username' ? $currentOrderDir : '' ?>">
+                <a>USERNAME</a>
+            </th>
+
+            <th class="<?= $orderBy === 'email' ? $currentOrderDir : '' ?>">
+                <a>EMAIL</a>
+            </th>
+
+            <th class="<?= $orderBy === 'fiscalCode' ? $currentOrderDir : '' ?>">
+                <a>FISCAL CODE</a>
+            </th>
+
+            <th class="<?= $orderBy === 'age' ? $currentOrderDir : '' ?>">
+                <a>AGE</a>
+            </th>
+            <th>
+                MODIFY
+                &nbsp;
+            </th>
+            <th>
+                DELETE
+                &nbsp;
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -23,14 +45,35 @@ $orderDir = $orderDir === 'ASC' ? 'DESC' : 'ASC';
                     <td><a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a></td>
                     <td><?= $user['fiscalCode'] ?></td>
                     <td><?= $user['age'] ?></td>
-                    
+                    <td>
+                        <a class="btn btn-success" href="<?= $updateUrl ?>?id=<?= $user['id'] ?>&action=update&<?= $pageUrl ?>">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a onclick="return confirm('DELETE USER?')" class="btn btn-danger" href="<?= $updateUrl ?>?id=<?= $user['id'] ?>&action=delete&<?= $pageUrl ?>">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
                 </tr>
-        <?php
-            }
+            <?php } ?>
+    <tfoot>
+        <div style="text-align: center;">
+            <table style="margin: auto;">
+                <tr>
+                    <td colspan="5">
+                        <?php require 'view/navigation.php'; ?>
+                        <?= createPagination($totalRecords, $recordsPerPage, $currentPage, $pageUrl, $maxLinks); ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </tfoot>
+<?php
         } else { ?>
-        <tr><td colspan="5">NO RECORDS FOUND</td></tr>
-        <?php
-        }
-        ?>
-    </tbody>
+    <tr>
+        <td colspan="5">NO RECORDS FOUND</td>
+    </tr>
+<?php } ?>
+</tbody>
 </table>

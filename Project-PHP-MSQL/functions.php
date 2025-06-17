@@ -3,7 +3,7 @@ require_once 'connection.php';
 
 function getRandName()
 {
-    $names = ['Giovanni', 'Roberto', 'Luca', 'Mario', 'Marco', 'Giulia'];
+    $names = ['Francesca', 'Margherita', 'Leonardo', 'Martino', 'Nicola', 'Stefano'];
 
     $lastnames = ['Rossi', 'Bianchi', 'Previato', 'Rizzieri', 'Albieri', 'Guerra'];
 
@@ -71,23 +71,36 @@ function insertRandUser($total, mysqli $connection)
         }
     }
 }
-//insertRandUser(9, $mysqli);
+//insertRandUser(10, $mysqli);
 
 function getUser(array $params = [])
 {
 
-    $connection = $GLOBALS['mysqli'];
+    $connection = getConnection();
     $records = [];
-    $limit = $params['recordsPerPage'] ?? 10; 
+    $limit = $params['recordsPerPage'];
     $orderBy = $params['orderBy'] ?? 'id';
     $orderDir = $params['orderDir'] ?? 'ASC';
     $search = $params['search'] ?? '';
+    $page = $params['page'] ?? 1;
+    $start = $limit * ($page - 1);
     if ($orderDir !== 'ASC' && $orderDir !== 'DESC') {
         $orderDir = 'ASC';
     }
-    $sql = "SELECT * FROM data ORDER BY $orderBy $orderDir LIMIT 0,$limit";
-
+    $sql = "SELECT * FROM data";
+    if ($search) {
+        $sql .= ' WHERE';
+        if (is_numeric($search)) {
+            $sql .= " (id = $search OR age = $search)";
+        } else {
+            $sql .= " (username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%')";
+        }
+    }
+    $sql .= " ORDER BY $orderBy $orderDir LIMIT $start,$limit";
     $res = $connection->query($sql);
+
+    //var_dump($sql);
+    
     if ($res) {
         while ($row = $res->fetch_assoc()) {
             $records[] = $row;
@@ -95,6 +108,30 @@ function getUser(array $params = [])
     }
 
     return $records;
+}
+
+function getTotalUserCount(string $search = '')
+{
+
+    $connection = getConnection();
+  
+    $sql = "SELECT COUNT(*) as total FROM data";
+    if ($search) {
+        $sql .= ' WHERE';
+        if (is_numeric($search)) {
+            $sql .= " id = $search OR age = $search";
+        } else {
+            $search = $connection->real_escape_string($search);
+            $sql .= " username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%'";
+        }
+    }
+
+    $res = $connection->query($sql);
+    if($res && $row = $res->fetch_assoc()){
+        return (int) $row['total'];
+    }
+
+    return 0;
 }
 
 function getConfig($param, $default = null)
