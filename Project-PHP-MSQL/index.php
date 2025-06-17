@@ -2,6 +2,7 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require_once 'connection.php';
 require_once 'functions.php';
 $page = $_SERVER['PHP_SELF'];
 $updateUrl = 'controller/updateRecord.php';
@@ -29,20 +30,39 @@ require_once 'view/nav.php';
 ?>
 
 <main class="flex-shrink-0">
-    <div class="container">
+    <div class="container text-center">
         <h1>User Management System</h1>
         <?php
-        if(!empty($_SESSION['message'])) {
-            $message = $_SESSION['message'];
-            unset($_SESSION['message']);
-            $success = $_SESSION['success'] ?? true;
-            $allertType = $success ? 'success' : 'danger';
-            require_once 'view/message.php';
-        }
-        $action = getParam('action');
-        $page = $_SERVER['PHP_SELF'];
 
-        require_once 'controller/displayUsers.php';
+
+        $action = getParam('action');
+
+        switch ($action) {
+            case 'edit':
+                require_once 'model/User.php';
+                $id = getParam('id');
+                $user = getUserById($id);
+                require_once 'view/userForm.php';
+                break;
+
+            case 'insert':
+
+                $user = [
+                    'id' => '',
+                    'username' => '',
+                    'email' => '',
+                    'fiscalCode' => '',
+                    'age' => ''
+                ];
+                require_once 'view/userForm.php';
+                break;
+
+            default:
+                require_once 'controller/displayUsers.php';
+                break;
+        }
+
+
         ?>
     </div>
 </main>

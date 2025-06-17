@@ -46,7 +46,7 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
                     <td><?= $user['fiscalCode'] ?></td>
                     <td><?= $user['age'] ?></td>
                     <td>
-                        <a class="btn btn-success" href="<?= $updateUrl ?>?id=<?= $user['id'] ?>&action=update&<?= $pageUrl ?>">
+                        <a class="btn btn-success" href="?id=<?= $user['id'] ?>&action=edit&<?= $pageUrl ?>">
                             <i class="fa fa-pen"></i>
                         </a>
                     </td>

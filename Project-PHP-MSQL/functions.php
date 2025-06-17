@@ -3,9 +3,9 @@ require_once 'connection.php';
 
 function getRandName()
 {
-    $names = ['Francesca', 'Margherita', 'Leonardo', 'Martino', 'Nicola', 'Stefano'];
+    $names = ['Davide', 'Giorgia', 'Dennis', 'Asia', 'Noemi', 'Paolo'];
 
-    $lastnames = ['Rossi', 'Bianchi', 'Previato', 'Rizzieri', 'Albieri', 'Guerra'];
+    $lastnames = ['Navarri', 'Basaglia', 'Sescu', 'Laghi', 'Bellini', 'Scorzoni'];
 
     $randNames = mt_rand(0, count($names) - 1);
     $randLastNames = mt_rand(0, count($lastnames) - 1);
@@ -100,7 +100,7 @@ function getUser(array $params = [])
     $res = $connection->query($sql);
 
     //var_dump($sql);
-    
+
     if ($res) {
         while ($row = $res->fetch_assoc()) {
             $records[] = $row;
@@ -114,7 +114,7 @@ function getTotalUserCount(string $search = '')
 {
 
     $connection = getConnection();
-  
+
     $sql = "SELECT COUNT(*) as total FROM data";
     if ($search) {
         $sql .= ' WHERE';
@@ -127,7 +127,7 @@ function getTotalUserCount(string $search = '')
     }
 
     $res = $connection->query($sql);
-    if($res && $row = $res->fetch_assoc()){
+    if ($res && $row = $res->fetch_assoc()) {
         return (int) $row['total'];
     }
 
@@ -147,8 +147,21 @@ function getParam($param, $default = '')
     return $_REQUEST[$param] ?? $default;
 }
 
-function dd(mixed $data = null)
+function dd(mixed ...$data)
 {
     var_dump($data);
     die;
 }
+
+function showSessionMsg()
+{
+    if (!empty($_SESSION['message'])) {
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
+        $allertType = $_SESSION['messageType'];
+        unset($_SESSION['messageType']);
+        require_once 'view/message.php';
+    }
+}
+
+//insertRandUser(10, getConnection());
