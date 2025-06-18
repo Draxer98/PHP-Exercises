@@ -8,7 +8,6 @@ $newActive = $action === 'insert' ? 'active' : '';
 
 ?>
 <header>
-    <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><i class="fa-solid fa-globe fa-2xl"></i></a>

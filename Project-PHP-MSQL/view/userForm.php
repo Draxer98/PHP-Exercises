@@ -1,5 +1,5 @@
 <?php
-$action = 'insert';
+$action = 'store';
 $buttonName = 'SAVE';
 $formTitle = 'INSERT USER';
 if($user && $user['id']){
