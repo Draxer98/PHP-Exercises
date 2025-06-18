@@ -1,16 +1,51 @@
-.button {
-    background-color: greenyellow;
-    border-color: green;
-    color: green;
-    padding: 8px;
-    border-radius: 10px;
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    margin-top: 40px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.formCalc {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.inputCalc {
+    margin-bottom: 20px;
 }
 
 .result {
     display: inline-block;
-    padding: 10px;
-    background-color: lightblue;
-    border: 2px solid darkblue;
-    font-size: 16px;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #e9f7ef;
+    border: 2px solid #28a745;
+    color: #155724;
     border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.result:empty {
+    display: none;
+}
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik-doodle-shadow-regular {
+  font-family: "Rubik Doodle Shadow", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
