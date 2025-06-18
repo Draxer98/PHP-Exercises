@@ -1,0 +1,80 @@
+@font-face {
+    font-family: "Bebas Neue";
+    src: url("fonts/BebasNeue-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 100px;
+    text-align: center;
+    padding-top: 15px;
+}
+
+i.fa-solid {
+    margin: 5px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.table td,
+.table th {
+    padding: 10px;
+    border: 1px solid #454d55;
+    text-align: center;
+}
+
+.caption {
+    caption-side: top;
+    font-weight: bold;
+    font-size: xx-large;
+    color: black;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.table thead th.ASC:after,
+.table thead th.DESC:after {
+    content: '↓';
+    padding: 3px;
+}
+
+.table thead th.DESC:after {
+    content: '↑';
+}
+
+main>.container {
+    padding: 60px 15px 0;
+}
+
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.form-label {
+    color: black;
+    font-size: small;
+}
+
+.col {
+    padding-left: 0%;
+}
+
+.founds {
+    font-size: 20px;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 5s ease-out;
+}

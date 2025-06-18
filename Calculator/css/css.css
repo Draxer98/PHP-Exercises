@@ -1,0 +1,16 @@
+.button {
+    background-color: greenyellow;
+    border-color: green;
+    color: green;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.result {
+    display: inline-block;
+    padding: 10px;
+    background-color: lightblue;
+    border: 2px solid darkblue;
+    font-size: 16px;
+    border-radius: 10px;
+}
