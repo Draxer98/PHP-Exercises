@@ -175,7 +175,7 @@ function handleAvatarUpload(array $file, int $userId = null)
         'images/png' => 'png',
         'images/gif' => 'gif'
     ];
-    
+
     $fileInfo = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $fileInfo->file($file['tmp_name']);
 
@@ -262,4 +262,40 @@ function redirectWithParams()
     exit;
 }
 
+function convertMaxUploadSizeToBytes()
+{
+    $maxUploadSize = 2;
+    $number = (int) $maxUploadSize;
+    $unit = strtoupper(substr($maxUploadSize, -1));
+    switch ($unit) {
+        case 'G':
+            $number = $number * 1024 ** 3;
+            break;
+        case 'M':
+            $number = $number * 1024 ** 2;
+            break;
+        case 'K':
+            $number = $number * 1024;
+            break;
+    }
+
+    return $number;
+}
+
+function formatBytes(int $bytes)
+{
+    if ($bytes < 1) {
+        return 0;
+    }
+    $units = [
+        'Bytes',
+        'Kilobytes',
+        'Megabytes',
+        'Gigabytes'
+    ];
+    $power = floor(log($bytes, 1024));
+    $number = round($bytes / 1024 ** $power, 2);
+
+    return $number . ' ' . $units[$power];
+}
 //insertRandUser(10, getConnection());

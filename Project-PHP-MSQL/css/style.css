@@ -89,3 +89,11 @@ main>.container {
         transform: scale(1.60);
     }
 }
+
+.infoImagesBytes {
+    font-size: 12px;
+    text-align: left;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+}

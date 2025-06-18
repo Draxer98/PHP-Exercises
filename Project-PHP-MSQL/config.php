@@ -10,6 +10,6 @@ return [
     'orderByColums' => ['id', 'username', 'email', 'fiscalCode', 'age'],
     'recordsPerPageOptions' => [5,10,15,20,50,100],
     'uploadDir' => 'avatar',
-    'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
-    'maxFileSize' => 2*1024*1024
+    'mimeTypes' => ['image.jpeg', 'image.png', 'image.gif'],
+    'maxFileSize' => convertMaxUploadSizeToBytes()
 ];
