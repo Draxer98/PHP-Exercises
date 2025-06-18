@@ -6,11 +6,8 @@ if($user && $user['id']){
     $action = 'edit';
     $formTitle = 'UPDATE USER';
 }
-foreach ($user as $value) {
-    $value = htmlspecialchars($value);
-}
 ?>
-<form action="controller/updateRecord.php" method="post">
+<form action="controller/updateRecord.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?=$user['id']?>">
     <input type="hidden" name="action" value="<?= $action ?>">
     <h2><?= $formTitle ?></h2>
@@ -36,6 +33,12 @@ foreach ($user as $value) {
         <label for="age" class="col-form-label text-end l form-label col-sm-2">Age: </label>
         <div class="col-sm-8">
             <input id="age" value="<?=$user['age']?>" class="col-sm-4 form-control" name="age">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="avatar" class="col-form-label text-end form-label col-sm-2">Avatar:</label>
+        <div class="col-sm-8">
+            <input type="file" accept=".jpg, .jpeg, .png" id="avatar" value="<?= $user['avatar'] ?>" class="form-control" name="avatar">
         </div>
     </div>
     <div class="row mb-3 d-flex justify-content-center aling-items-sm-center">

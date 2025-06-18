@@ -1,14 +1,3 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const message = document.getElementById('message');
-        if (message) {
-            setTimeout(function() {
-                message.parentNode.removeChild(message);
-            }, 5000)
-        }
-    })
-</script>
-
 <footer class="footer py-3 mt-auto bg-body-tertiary">
     <div class="container" Style="text-align: center">
         <span class="text-body-secondary">@copyright 2025</span>

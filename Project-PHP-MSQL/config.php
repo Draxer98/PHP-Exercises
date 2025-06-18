@@ -8,5 +8,8 @@ return [
     'recordsPerPage' => 26,
     'maxLinks' => 10,
     'orderByColums' => ['id', 'username', 'email', 'fiscalCode', 'age'],
-    'recordsPerPageOptions' => [5,10,15,20,50,100]
+    'recordsPerPageOptions' => [5,10,15,20,50,100],
+    'uploadDir' => 'avatar',
+    'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+    'maxFileSize' => 2*1024*1024
 ];

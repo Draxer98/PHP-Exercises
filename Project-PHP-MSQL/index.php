@@ -33,8 +33,6 @@ require_once 'view/nav.php';
     <div class="container text-center">
         <h1>User Management System</h1>
         <?php
-
-
         $action = getParam('action');
 
         switch ($action) {
@@ -46,13 +44,13 @@ require_once 'view/nav.php';
                 break;
 
             case 'insert':
-
                 $user = [
                     'id' => '',
                     'username' => '',
                     'email' => '',
                     'fiscalCode' => '',
-                    'age' => ''
+                    'age' => '',
+                    'avatar' => ''
                 ];
                 require_once 'view/userForm.php';
                 break;
@@ -61,8 +59,6 @@ require_once 'view/nav.php';
                 require_once 'controller/displayUsers.php';
                 break;
         }
-
-
         ?>
     </div>
 </main>

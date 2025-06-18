@@ -164,4 +164,102 @@ function showSessionMsg()
     }
 }
 
+function handleAvatarUpload(array $file, int $userId = null)
+{
+    $config = require 'config.php';
+
+    $uploadDir = $config['uploadDir'] ?? 'avatar';
+    $uploadDirPath = realpath(__DIR__ . '/' . $uploadDir);
+    $mimeMap = [
+        'images/jpeg' => 'jpg',
+        'images/png' => 'png',
+        'images/gif' => 'gif'
+    ];
+    
+    $fileInfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $fileInfo->file($file['tmp_name']);
+
+    $extension = $mimeMap[$mimeType];
+    $fileName = ($userId ? $userId . '_' : '') . bin2hex(random_bytes(8)) . '.' . $extension;
+
+    $destination = $uploadDirPath . DIRECTORY_SEPARATOR . $fileName;
+
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        throw new Exception('Failed to move uploaded file');
+    }
+
+    return $res ? $uploadDir . '/' . $fileName : null;
+}
+
+function validateFileUpload(array $file)
+{
+    $errors = [];
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $errors[] = getUploadError($file['error']);
+        return $errors;
+    }
+    $config = require 'config.php';
+
+    if (!in_array($mimeType, array_keys($mimeMap))) {
+        $errors[] = 'Invalid file type. Allowed types: JPEG, PNG, GIf';
+    }
+
+    if ($file['size'] > ($config['maxFileSize'] ?? 2 * 1024 * 1024)) {
+        $errorS[] = 'File size exceeds ' . $config['maxFileSize'];
+    }
+
+    return $errors;
+}
+
+function getUploadError(int $errorCode)
+{
+    $error = '';
+    switch ($errorCode) {
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            $error = 'File size exceeds the allowed limit.';
+            break;
+        case UPLOAD_ERR_PARTIAL:
+            $error = 'The file was only partially uploaded.';
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            $error = 'No file was uploaded.';
+            break;
+        case UPLOAD_ERR_NO_TMP_DIR:
+            $error = 'Missing temporary folder.';
+            break;
+        case UPLOAD_ERR_CANT_WRITE:
+            $error = 'Failed to write file to disk.';
+            break;
+        case UPLOAD_ERR_EXTENSION:
+            $error = 'File upload stopped by extension.';
+            break;
+        default:
+            $error = 'Unknown file uploaded error.';
+            break;
+    }
+
+    return $error;
+}
+
+function setFlashMessage(string $message, string $type = 'info')
+{
+    $_SESSION['message'] = $message;
+    $_SESSION['messageType'] = $type;
+}
+
+function redirectWithParams()
+{
+    $params = $_GET;
+    if (isset($param['id'])) {
+        unset($params['id']);
+    }
+    if (isset($param['action'])) {
+        unset($params['action']);
+    }
+    $queryString = http_build_query($params);
+    header('Location:../index.php?' . $queryString);
+    exit;
+}
+
 //insertRandUser(10, getConnection());

@@ -23,9 +23,9 @@ function getUserById(int $id)
 function updateUser(array $data, int $id)
 {
     $conn = getConnection();
-    $sql = 'UPDATE data SET username = ?, email = ?, fiscalCode = ?, age = ? WHERE id =?';
+    $sql = 'UPDATE data SET username = ?, email = ?, fiscalCode = ?, age = ?, avatar = ? WHERE id =?';
     $stm = $conn->prepare($sql);
-    $stm->bind_param('sssii', $data['username'], $data['email'], $data['fiscalCode'], $data['age'], $id);
+    $stm->bind_param('sssisi', $data['username'], $data['email'], $data['fiscalCode'], $data['age'], $data['avatar'], $id);
     $stm->execute();
     $res = $stm->execute();
     $stm->close();
@@ -35,9 +35,9 @@ function updateUser(array $data, int $id)
 function storeUser(array $data)
 {
     $conn = getConnection();
-    $sql = 'INSERT INTO data (username, email, fiscalCode, age) VALUE (?, ?, ?, ?)';
+    $sql = 'INSERT INTO data (username, email, fiscalCode, age, avatar) VALUE (?, ?, ?, ?, ?)';
     $stm = $conn->prepare($sql);
-    $stm->bind_param('sssi', $data['username'], $data['email'], $data['fiscalCode'], $data['age']);
+    $stm->bind_param('sssis', $data['username'], $data['email'], $data['fiscalCode'], $data['age'], $data['avatar']);
     $stm->execute();
     $stm->close();
     return $conn->insert_id;

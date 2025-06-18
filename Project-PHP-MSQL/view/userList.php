@@ -6,6 +6,9 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
     <caption class="caption"><i class="fa-solid fa-users"></i>| USERS LIST | <i class="founds"> <?= $totalRecords ?> records found </i> </caption>
     <thead>
         <tr>
+            <th>
+                AVATAR
+            </th>
             <th class="<?= $orderBy === 'id' ? $currentOrderDir : '' ?>">
                 <a>ID</a>
             </th>
@@ -40,6 +43,11 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
         if ($users) {
             foreach ($users as $user) { ?>
                 <tr>
+                    <td><?php
+                        if ($user['avatar']) { ?>
+                            <img src="<?= $user['avatar'] ?>" alt="avatar" class="img-thumbnail-25">
+                        <?php } ?>
+                    </td>
                     <td><?= $user['id'] ?></td>
                     <td><?= $user['username'] ?></td>
                     <td><a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a></td>

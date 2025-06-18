@@ -9,9 +9,6 @@ switch ($action) {
     case 'delete':
         $id = getParam('id', 0);
         $res = deleteUser($id);
-        $message = $res ? 'USER ' . $id . ' DELETED' : 'ERROR DELETING USER' . $id;
-        $_SESSION['message'] = $message;
-        $_SESSION['messageType'] = $res ? 'success' : 'danger';
         $params = $_GET;
         unset($params['id'], $params['action']);
         $queryString = http_build_query($params);
@@ -24,14 +21,20 @@ switch ($action) {
             'username' => trim($_POST['username']),
             'email' => trim($_POST['email']),
             'fiscalCode' => trim($_POST['fiscalCode']),
-            'age' => (int) $_POST['age']
+            'age' => (int) $_POST['age'],
+            'avatar' => null
         ];
-
+        $avatarPath = '';
+        if ($_FILES['avatar']['name']) {
+            $fileError = validateFileUpload($_FILES['avatar']);
+            if (!empty($fileError)) {
+                setFlashMessage(implode('<br>', $fileError));
+                redirectWithParams();
+            }
+            $avatarPath = handleAvatarUpload($_FILES['avatar'], $id);
+        }
+        $userData['avatar'] = $avatarPath;
         $res = updateUser($userData, $id);
-
-        $message = $res ? 'USER ' . $id . ' UPDATED' : 'ERROR UPDATING USER ' . $id;
-        $_SESSION['message'] = $message;
-        $_SESSION['messageType'] = $res ? 'success' : 'danger';
 
         $params = $_GET;
         unset($params['id'], $params['action']);
@@ -45,17 +48,22 @@ switch ($action) {
             'username' => trim($_POST['username']),
             'email' => trim($_POST['email']),
             'fiscalCode' => trim($_POST['fiscalCode']),
-            'age' => (int) $_POST['age']
+            'age' => (int) $_POST['age'],
+            'avatar' => null
         ];
-
+        $avatarPath = '';
+        if ($_FILES['avatar']['name']) {
+            $fileError = validateFileUpload($_FILES['avatar']);
+            if (!empty($fileError)) {
+                setFlashMessage(implode('<br>', $fileError));
+                redirectWithParams();
+            }
+            $avatarPath = handleAvatarUpload(($_FILES['avatar']));
+        }
+        $userData['avatar'] = $avatarPath;
         $res = storeUser($userData);
-
-        $message = $res ? 'USER ' . $res . ' CREATED' : 'ERROR CREATING USER ';
-        $_SESSION['message'] = $message;
-        $_SESSION['messageType'] = $res ? 'success' : 'danger';
-
         $params = $_GET;
-        unset($params['action']);
+        unset($params['id'], $params['action']);
         $queryString = http_build_query($params);
 
         header('Location:../index.php?' . $queryString);

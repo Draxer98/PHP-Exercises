@@ -78,3 +78,14 @@ main>.container {
     opacity: 0;
     transition: opacity 5s ease-out;
 }
+
+.img-thumbnail-25 {
+    width: 60px;
+    height: auto;
+    border-radius: 0.25rem;
+    border: 3px solid #c4c5c7;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.60);
+    }
+}
