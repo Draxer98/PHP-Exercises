@@ -23,10 +23,39 @@ function getUserById(int $id)
 function updateUser(array $data, int $id)
 {
     $conn = getConnection();
-    $sql = 'UPDATE data SET username = ?, email = ?, fiscalCode = ?, age = ?, avatar = ? WHERE id =?';
+
+    $currentUser = getUserById($id);
+
+    $username = $data['username'] ?? $currentUser['username'];
+    $email = $data['email'] ?? $currentUser['email'];
+    $fiscalCode = $data['fiscalCode'] ?? $currentUser['fiscalCode'];
+    $age = $data['age'] ?? $currentUser['age'];
+
+    $avatar = isset($data['avatar']) && $data['avatar'] ? $data['avatar'] : $currentUser['avatar'];
+
+    if (empty($data['password'])) {
+        $passwordHash = $currentUser['password'];
+    } else {
+        $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+    }
+
+    $roleType = isset($data['roleType']) && in_array($data['roleType'], getConfig('roleType', []))
+        ? $data['roleType']
+        : $currentUser['roleType'];
+
+    $sql = 'UPDATE data SET username = ?, email = ?, fiscalCode = ?, age = ?, avatar = ?, password = ?, roleType = ? WHERE id = ?';
     $stm = $conn->prepare($sql);
-    $stm->bind_param('sssisi', $data['username'], $data['email'], $data['fiscalCode'], $data['age'], $data['avatar'], $id);
-    $stm->execute();
+    $stm->bind_param(
+        'sssisssi',
+        $username,
+        $email,
+        $fiscalCode,
+        $age,
+        $avatar,
+        $passwordHash,
+        $roleType,
+        $id
+    );
     $res = $stm->execute();
     $stm->close();
     return $res;
@@ -35,9 +64,25 @@ function updateUser(array $data, int $id)
 function storeUser(array $data)
 {
     $conn = getConnection();
-    $sql = 'INSERT INTO data (username, email, fiscalCode, age, avatar) VALUE (?, ?, ?, ?, ?)';
+
+    $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+
+    $roleType = isset($data['roleTypes']) && in_array($data['roleTypes'], getConfig('roleTypes', []))
+        ? $data['roleTypes']
+        : 'user';
+
+    $sql = 'INSERT INTO data (username, email, fiscalCode, age, avatar, password, roleType) VALUES (?, ?, ?, ?, ?, ?, ?)';
     $stm = $conn->prepare($sql);
-    $stm->bind_param('sssis', $data['username'], $data['email'], $data['fiscalCode'], $data['age'], $data['avatar']);
+    $stm->bind_param(
+        'sssisss',
+        $data['username'],
+        $data['email'],
+        $data['fiscalCode'],
+        $data['age'],
+        $data['avatar'],
+        $passwordHash,
+        $roleType
+    );
     $stm->execute();
     $stm->close();
     return $conn->insert_id;

@@ -93,7 +93,7 @@ function getUser(array $params = [])
         if (is_numeric($search)) {
             $sql .= " (id = $search OR age = $search)";
         } else {
-            $sql .= " (username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%')";
+            $sql .= " (username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%' OR roleType like %$search%)";
         }
     }
     $sql .= " ORDER BY $orderBy $orderDir LIMIT $start,$limit";
@@ -153,99 +153,36 @@ function dd(mixed ...$data)
     die;
 }
 
-function showSessionMsg()
-{
-    if (!empty($_SESSION['message'])) {
-        $message = $_SESSION['message'];
-        unset($_SESSION['message']);
-        $allertType = $_SESSION['messageType'];
-        unset($_SESSION['messageType']);
-        require_once 'view/message.php';
-    }
-}
-
 function handleAvatarUpload(array $file, int $userId = null)
 {
     $config = require 'config.php';
 
     $uploadDir = $config['uploadDir'] ?? 'avatar';
-    $uploadDirPath = realpath(__DIR__ . '/' . $uploadDir);
+    $uploadDirPath = __DIR__ . '/' . $uploadDir;
+    if (!is_dir($uploadDirPath)) {
+        mkdir($uploadDirPath, 0777, true);
+    }
     $mimeMap = [
-        'images/jpeg' => 'jpg',
-        'images/png' => 'png',
-        'images/gif' => 'gif'
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif'
     ];
-
     $fileInfo = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $fileInfo->file($file['tmp_name']);
 
+    if (!isset($mimeMap[$mimeType])) {
+        throw new Exception('Invalid file type');
+    }
+
     $extension = $mimeMap[$mimeType];
     $fileName = ($userId ? $userId . '_' : '') . bin2hex(random_bytes(8)) . '.' . $extension;
-
     $destination = $uploadDirPath . DIRECTORY_SEPARATOR . $fileName;
 
     if (!move_uploaded_file($file['tmp_name'], $destination)) {
         throw new Exception('Failed to move uploaded file');
     }
 
-    return $res ? $uploadDir . '/' . $fileName : null;
-}
-
-function validateFileUpload(array $file)
-{
-    $errors = [];
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        $errors[] = getUploadError($file['error']);
-        return $errors;
-    }
-    $config = require 'config.php';
-
-    if (!in_array($mimeType, array_keys($mimeMap))) {
-        $errors[] = 'Invalid file type. Allowed types: JPEG, PNG, GIf';
-    }
-
-    if ($file['size'] > ($config['maxFileSize'] ?? 2 * 1024 * 1024)) {
-        $errorS[] = 'File size exceeds ' . $config['maxFileSize'];
-    }
-
-    return $errors;
-}
-
-function getUploadError(int $errorCode)
-{
-    $error = '';
-    switch ($errorCode) {
-        case UPLOAD_ERR_INI_SIZE:
-        case UPLOAD_ERR_FORM_SIZE:
-            $error = 'File size exceeds the allowed limit.';
-            break;
-        case UPLOAD_ERR_PARTIAL:
-            $error = 'The file was only partially uploaded.';
-            break;
-        case UPLOAD_ERR_NO_FILE:
-            $error = 'No file was uploaded.';
-            break;
-        case UPLOAD_ERR_NO_TMP_DIR:
-            $error = 'Missing temporary folder.';
-            break;
-        case UPLOAD_ERR_CANT_WRITE:
-            $error = 'Failed to write file to disk.';
-            break;
-        case UPLOAD_ERR_EXTENSION:
-            $error = 'File upload stopped by extension.';
-            break;
-        default:
-            $error = 'Unknown file uploaded error.';
-            break;
-    }
-
-    return $error;
-}
-
-function setFlashMessage(string $message, string $type = 'info')
-{
-    $_SESSION['message'] = $message;
-    $_SESSION['messageType'] = $type;
+    return $uploadDir . '/' . $fileName;
 }
 
 function redirectWithParams()
@@ -264,22 +201,19 @@ function redirectWithParams()
 
 function convertMaxUploadSizeToBytes()
 {
-    $maxUploadSize = 2;
-    $number = (int) $maxUploadSize;
-    $unit = strtoupper(substr($maxUploadSize, -1));
-    switch ($unit) {
-        case 'G':
-            $number = $number * 1024 ** 3;
-            break;
-        case 'M':
-            $number = $number * 1024 ** 2;
-            break;
-        case 'K':
-            $number = $number * 1024;
-            break;
+    $val = ini_get('upload_max_filesize');
+    $val = trim($val);
+    $last = strtolower($val[strlen($val) - 1]);
+    $val = (int)$val;
+    switch ($last) {
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
     }
-
-    return $number;
+    return $val;
 }
 
 function formatBytes(int $bytes)
@@ -297,5 +231,14 @@ function formatBytes(int $bytes)
     $number = round($bytes / 1024 ** $power, 2);
 
     return $number . ' ' . $units[$power];
+}
+
+function deleteUserImages(string $avatarPath)
+{
+    if (!$avatarPath) return;
+    $filePath = __DIR__ . '/' . $avatarPath;
+    if (file_exists($filePath)) {
+        unlink($filePath);
+    }
 }
 //insertRandUser(10, getConnection());

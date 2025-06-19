@@ -7,9 +7,10 @@ return [
     'msql_db' => 'test',
     'recordsPerPage' => 26,
     'maxLinks' => 10,
-    'orderByColums' => ['id', 'username', 'email', 'fiscalCode', 'age'],
+    'orderByColumns' => ['id', 'username', 'roleType', 'email', 'fiscalCode', 'age'],
     'recordsPerPageOptions' => [5,10,15,20,50,100],
     'uploadDir' => 'avatar',
-    'mimeTypes' => ['image.jpeg', 'image.png', 'image.gif'],
-    'maxFileSize' => convertMaxUploadSizeToBytes()
+    'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+    'maxFileSize' => convertMaxUploadSizeToBytes(),
+    'roleType' => ['user', 'editor', 'admin']
 ];

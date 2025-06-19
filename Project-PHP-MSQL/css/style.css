@@ -97,3 +97,16 @@ main>.container {
     font-style: normal;
     text-transform: uppercase;
 }
+
+#loginform {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #e4e4e4;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+}

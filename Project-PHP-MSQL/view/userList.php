@@ -1,5 +1,6 @@
 <?php
 $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
+require 'view/top.php';
 ?>
 
 <table class="table table-dark table-striped">
@@ -15,6 +16,10 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
 
             <th class="<?= $orderBy === 'username' ? $currentOrderDir : '' ?>">
                 <a>USERNAME</a>
+            </th>
+
+            <th class="<?= $orderBy === 'roleType' ? $currentOrderDir : '' ?>">
+                <a>ROLE</a>
             </th>
 
             <th class="<?= $orderBy === 'email' ? $currentOrderDir : '' ?>">
@@ -52,6 +57,11 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
                     </td>
                     <td><?= $user['id'] ?></td>
                     <td><?= $user['username'] ?></td>
+                    <td><?php if ($user['roleType']) {
+                            echo $user['roleType'];
+                        } else {
+                            echo 'user';
+                        } ?></td>
                     <td><a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a></td>
                     <td><?= $user['fiscalCode'] ?></td>
                     <td><?= $user['age'] ?></td>
