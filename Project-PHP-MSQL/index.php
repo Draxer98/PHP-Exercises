@@ -25,7 +25,7 @@ $orderBy = in_array($orderBy, $orderByColumns) ? $orderBy : 'id';
 
 $totalRecords = getTotalUserCount($search);
 
-require_once 'view/top.php';
+require 'view/top.php';
 require_once 'view/nav.php';
 ?>
 
@@ -64,5 +64,5 @@ require_once 'view/nav.php';
 </main>
 
 <?php
-require_once 'view/footer.php';
+require 'view/footer.php';
 ?>

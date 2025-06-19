@@ -12,27 +12,31 @@ if ($user && $user['id']) {
     <input type="hidden" name="action" value="<?= $action ?>">
     <h2><?= $formTitle ?></h2>
     <div class="row mb-3">
-        <label for="username" class="col-form-label text-end l form-label col-sm-2">Username: </label>
+        <label for="username" class="col-form-label text-end form-label col-sm-2">Username: </label>
         <div class="col-sm-8">
-            <input id="username" value="<?= $user['username'] ?>" class="col-sm-4 form-control" name="username">
+            <input id="username" value="<?= $user['username'] ?>" class="col-sm-4 form-control required-field" name="username" data-type="username">
+            <span class="error-msg" style="color:red; display:none;"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label for="email" class="col-form-label text-end l form-label col-sm-2">Email: </label>
+        <label for="email" class="col-form-label text-end form-label col-sm-2">Email: </label>
         <div class="col-sm-8">
-            <input id="email" value="<?= $user['email'] ?>" class="col-sm-4 form-control" name="email">
+            <input id="email" value="<?= $user['email'] ?>" class="col-sm-4 form-control required-field" name="email" data-type="email">
+            <span class="error-msg" style="color:red; display:none;"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label for="fiscalCode" class="col-form-label text-end l form-label col-sm-2">Fiscal Code: </label>
+        <label for="fiscalCode" class="col-form-label text-end form-label col-sm-2">Fiscal Code: </label>
         <div class="col-sm-8">
-            <input id="fiscalCode" value="<?= $user['fiscalCode'] ?>" class="col-sm-4 form-control" name="fiscalCode">
+            <input id="fiscalCode" value="<?= $user['fiscalCode'] ?>" class="col-sm-4 form-control required-field" name="fiscalCode" data-type="fiscal">
+            <span class="error-msg" style="color:red; display:none;"></span>
         </div>
     </div>
     <div class="row mb-3">
         <label for="age" class="col-form-label text-end l form-label col-sm-2">Age: </label>
         <div class="col-sm-8">
-            <input id="age" value="<?= $user['age'] ?>" class="col-sm-4 form-control" name="age">
+            <input id="age" value="<?= $user['age'] ?>" class="col-sm-4 form-control required-field" name="age" data-type="age">
+            <span class="error-msg" style="color:red; display:none;"></span>
         </div>
     </div>
     <div class="row mb-4">
@@ -61,3 +65,8 @@ if ($user && $user['id']) {
         </div>
     </div>
 </form>
+
+<?php
+require 'view/jqueryFunction.php';
+jqueryScripts();
+?>

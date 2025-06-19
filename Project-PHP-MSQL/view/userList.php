@@ -46,6 +46,8 @@ $currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
                     <td><?php
                         if ($user['avatar']) { ?>
                             <img src="<?= $user['avatar'] ?>" alt="avatar" class="img-thumbnail-25">
+                        <?php } else { ?>
+                            <i class="fa-solid fa-circle-user fa-2xl"> </i>
                         <?php } ?>
                     </td>
                     <td><?= $user['id'] ?></td>
