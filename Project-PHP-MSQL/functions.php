@@ -1,6 +1,39 @@
 <?php
 require_once 'connection.php';
 
+function verifyLogin($email, $password, $token)
+{
+    require_once 'model/User.php';
+    $result = ['message' => 'USER LOGGED IN', 'success' => true];
+
+    if ($token !== $_SESSION['csrf']) {
+        $result = ['message' => 'TOKEN MISMATCH', 'success' => false];
+        return $result;
+    }
+
+    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+    if (!$email) {
+        $result = ['message' => 'WRONG EMAIL', 'success' => false];
+        return $result;
+    }
+
+    if (strlen($password) < 6) {
+        $result = ['message' => 'PASSWORD TOO SMALL', 'success' => false];
+        return $result;
+    }
+    $resEmail = getUserByEmail($email);
+    if (!$resEmail) {
+        $result = ['message' => 'USER NOT FOUND', 'success' => false];
+        return $result;
+    }
+    if (!password_verify($password, $resEmail)) {
+        $result = ['message' => 'WRONG PASSWORD', 'success' => false];
+        return $result;
+    }
+    $result['user'] = $resEmail;
+    return $result;
+}
+
 function getRandName()
 {
     $names = ['Davide', 'Giorgia', 'Dennis', 'Asia', 'Noemi', 'Paolo'];
@@ -97,6 +130,30 @@ function getUser(array $params = [])
         }
     }
     $sql .= " ORDER BY $orderBy $orderDir LIMIT $start,$limit";
+    $res = $connection->query($sql);
+
+    //var_dump($sql);
+
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $records[] = $row;
+        }
+    }
+
+    return $records;
+}
+
+function getUserByEmail(string $email)
+{
+
+    $connection = getConnection();
+    $result = [];
+    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+    if (!$email) {
+        $result;
+    }
+    $email = mysqli_escape_string($connection, $email);
+    $sql = "SELECT * FROM data WHERE email = $email";
     $res = $connection->query($sql);
 
     //var_dump($sql);
