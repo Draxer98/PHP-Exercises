@@ -6,31 +6,29 @@ function verifyLogin($email, $password, $token)
     require_once 'model/User.php';
     $result = ['message' => 'USER LOGGED IN', 'success' => true];
 
-    if ($token !== $_SESSION['csrf']) {
-        $result = ['message' => 'TOKEN MISMATCH', 'success' => false];
-        return $result;
+    if ($token !== ($_SESSION['_csrf'] ?? '')) {
+        return ['message' => 'TOKEN MISMATCH', 'success' => false];
     }
 
     $email = filter_var($email, FILTER_VALIDATE_EMAIL);
     if (!$email) {
-        $result = ['message' => 'WRONG EMAIL', 'success' => false];
-        return $result;
+        return ['message' => 'INVALID EMAIL', 'success' => false];
     }
 
     if (strlen($password) < 6) {
-        $result = ['message' => 'PASSWORD TOO SMALL', 'success' => false];
-        return $result;
+        return ['message' => 'PASSWORD TOO SMALL', 'success' => false];
     }
-    $resEmail = getUserByEmail($email);
-    if (!$resEmail) {
-        $result = ['message' => 'USER NOT FOUND', 'success' => false];
-        return $result;
+
+    $user = getUserByEmail($email);
+    if (!$user) {
+        return ['message' => 'USER NOT FOUND', 'success' => false];
     }
-    if (!password_verify($password, $resEmail)) {
-        $result = ['message' => 'WRONG PASSWORD', 'success' => false];
-        return $result;
+
+    if (!password_verify($password, $user['password'])) {
+        return ['message' => 'WRONG PASSWORD', 'success' => false];
     }
-    $result['user'] = $resEmail;
+
+    $result['user'] = $user;
     return $result;
 }
 
@@ -145,26 +143,20 @@ function getUser(array $params = [])
 
 function getUserByEmail(string $email)
 {
-
     $connection = getConnection();
-    $result = [];
     $email = filter_var($email, FILTER_VALIDATE_EMAIL);
     if (!$email) {
-        $result;
+        return null;
     }
-    $email = mysqli_escape_string($connection, $email);
-    $sql = "SELECT * FROM data WHERE email = $email";
+    $email = mysqli_real_escape_string($connection, $email);
+    $sql = "SELECT * FROM data WHERE email = '$email' LIMIT 1";
     $res = $connection->query($sql);
 
-    //var_dump($sql);
-
-    if ($res) {
-        while ($row = $res->fetch_assoc()) {
-            $records[] = $row;
-        }
+    if ($res && $row = $res->fetch_assoc()) {
+        return $row;
     }
 
-    return $records;
+    return null;
 }
 
 function getTotalUserCount(string $search = '')
@@ -297,5 +289,36 @@ function deleteUserImages(string $avatarPath)
     if (file_exists($filePath)) {
         unlink($filePath);
     }
+}
+
+function isUserLoggedin()
+{
+    return $_SESSION['loggedin'] ?? false;
+}
+
+function getUserLoggedInFullname()
+{
+    return $_SESSION['userData']['username'] ?? '';
+}
+
+function getUserRole()
+{
+    return $_SESSION['userData']['roleType'] ?? '';
+}
+
+function isUserAdmin()
+{
+    return getUserRole() === 'admin';
+}
+
+function userCanUpdate()
+{
+    $role = getUserRole();
+    return ($role === 'admin' || $role === 'editor');
+}
+
+function userCanDelete()
+{
+    return isUserAdmin();
 }
 //insertRandUser(10, getConnection());

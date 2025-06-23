@@ -1,9 +1,13 @@
 <?php
 session_start();
+require_once 'functions.php';
+if(!isUserLoggedin()){
+    header('Location: login.php');
+    exit;
+}
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once 'connection.php';
-require_once 'functions.php';
 $page = $_SERVER['PHP_SELF'];
 $updateUrl = 'controller/updateRecord.php';
 
@@ -26,7 +30,7 @@ $orderBy = in_array($orderBy, $orderByColumns) ? $orderBy : 'id';
 $totalRecords = getTotalUserCount($search);
 
 require 'view/top.php';
-require_once 'view/nav.php';
+require_once 'view/topBar.php';
 ?>
 
 <main class="flex-shrink-0">

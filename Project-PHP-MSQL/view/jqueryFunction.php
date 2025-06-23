@@ -45,6 +45,18 @@ function jqueryScripts()
                                 isValid = false;
                             }
                             break;
+                        case "password":
+                            if (value.length < 7) {
+                                errorSpan.text("Password must be at least 7 characters").show();
+                                isValid = false;
+                            }
+                            break;
+                        case "checkbox":
+                            if (!$(this).is(":checked")) {
+                                errorSpan.text("You must check this box").show();
+                                isValid = false;
+                            }
+                            break;
                     }
                 });
 

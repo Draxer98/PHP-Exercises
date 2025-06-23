@@ -1,5 +1,10 @@
 <?php
 session_start();
+require_once 'functions.php';
+if (!isUserLoggedin()) {
+    header('Location: login.php');
+    exit;
+}
 require '../functions.php';
 require '../model/User.php';
 
@@ -68,7 +73,6 @@ switch ($action) {
 
         header('Location:../index.php?' . $queryString);
         break;
-
     default:
         break;
 }

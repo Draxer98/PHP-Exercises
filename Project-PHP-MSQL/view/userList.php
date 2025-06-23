@@ -1,6 +1,7 @@
 <?php
-$currentOrderDir = $currentOrderDir === 'ASC' ? 'DESC' : 'ASC';
+$currentOrderDir = $currentOrderDir === 'ASC' ? 'ASC' : 'DESC';
 require 'view/top.php';
+require 'view/nav.php';
 ?>
 
 <table class="table table-dark table-striped">
@@ -33,14 +34,18 @@ require 'view/top.php';
             <th class="<?= $orderBy === 'age' ? $currentOrderDir : '' ?>">
                 <a>AGE</a>
             </th>
-            <th>
-                MODIFY
-                &nbsp;
-            </th>
-            <th>
-                DELETE
-                &nbsp;
-            </th>
+            <?php if (userCanUpdate()) { ?>
+                <th>
+                    MODIFY
+                    &nbsp;
+                </th>
+            <?php } ?>
+            <?php if (userCanDelete()) { ?>
+                <th>
+                    DELETE
+                    &nbsp;
+                </th>
+            <?php } ?>
         </tr>
     </thead>
     <tbody>
@@ -65,16 +70,20 @@ require 'view/top.php';
                     <td><a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a></td>
                     <td><?= $user['fiscalCode'] ?></td>
                     <td><?= $user['age'] ?></td>
-                    <td>
-                        <a class="btn btn-success" href="?id=<?= $user['id'] ?>&action=edit&<?= $pageUrl ?>">
-                            <i class="fa fa-pen"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a onclick="return confirm('DELETE USER?')" class="btn btn-danger" href="<?= $updateUrl ?>?id=<?= $user['id'] ?>&action=delete&<?= $pageUrl ?>">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </td>
+                    <?php if (userCanUpdate()) { ?>
+                        <td>
+                            <a class="btn btn-success" href="?id=<?= $user['id'] ?>&action=edit&<?= $pageUrl ?>">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                        </td>
+                    <?php } ?>
+                    <?php if (userCanDelete()) { ?>
+                        <td>
+                            <a onclick="return confirm('DELETE USER?')" class="btn btn-danger" href="<?= $updateUrl ?>?id=<?= $user['id'] ?>&action=delete&<?= $pageUrl ?>">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    <?php } ?>
                 </tr>
             <?php } ?>
     <tfoot>

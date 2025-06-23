@@ -22,31 +22,45 @@ function totalProduct(){
     $total = 0;
 
     foreach($invoices as $invoice) {
-        $total += $invoice['quantity'] * $invoice['price'];
+        $total += ($invoice['quantity'] * $invoice['price']);
     }
 
     return $total;
 }
 
-function viewInvoice($total) {
+function viewInvoice($total, $discount = false) {
     global $invoices;
+    $name = '';
+    $quantity = '';
+    $price = '';
 
-    echo 'INVOICE' . "\n";
+    echo 'INVOICE' . "<br><br>";
 
     foreach($invoices as $invoice) {
-        echo "$invoice" . "\n";
+        $name = $invoice['name'];
+        $quantity = $invoice['quantity'];
+        $price = $invoice['price'];
+        echo "$quantity $name = $price $" . "<br>";
     }
 
-    echo "TOTAL : $total";
+    echo "<br>" . "TOTAL : $total $";
+    if($discount){
+        echo "<br>" . "5% discount";
+    }
 }
 
 function discount($total){
-    return ($total/100) * 5;
+    return $total -= ($total/100) * 5;
 }
 
-addProduct('pane', 10, 30);
+addProduct('pane', 10, 3);
+addProduct('pasta', 20, 4.50);
 $total = totalProduct();
 
 if($total > 100) {
     $total = discount($total);
+    viewInvoice($total, true);
+} else {
+    viewInvoice($total);
 }
+

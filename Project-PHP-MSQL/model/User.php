@@ -67,8 +67,8 @@ function storeUser(array $data)
 
     $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
 
-    $roleType = isset($data['roleTypes']) && in_array($data['roleTypes'], getConfig('roleTypes', []))
-        ? $data['roleTypes']
+    $roleType = isset($data['roleType']) && in_array($data['roleType'], getConfig('roleType', []))
+        ? $data['roleType']
         : 'user';
 
     $sql = 'INSERT INTO data (username, email, fiscalCode, age, avatar, password, roleType) VALUES (?, ?, ?, ?, ?, ?, ?)';

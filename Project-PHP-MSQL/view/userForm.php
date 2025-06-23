@@ -76,10 +76,12 @@ require 'view/top.php';
     </div>
     <div class="row mb-3 d-flex justify-content-center align-items-sm-center">
         <div class="col-sm-3">
-            <button href="index.php" type="submit" class="btn btn-primary"> <?= $buttonName ?> </button>
+            <?php if (userCanDelete()) { ?>
+                <button href="index.php" type="submit" class="btn btn-primary"> <?= $buttonName ?> </button>
+            <?php } ?>
             <a href="index.php" class="btn btn-secondary"> Back to users </a>
             <?php
-            if ($action === 'edit') { ?>
+            if ($action === 'edit' && userCanDelete()) { ?>
                 <a href="controller/updateRecord.php?action=delete&id=<?= $user['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure?')"> Elimina </a>
             <?php } ?>
         </div>
