@@ -5,6 +5,7 @@ if (isUserLoggedin()) {
     header('Location: index.php');
     exit;
 }
+
 $bytes = random_bytes(32);
 $token = bin2hex($bytes);
 $_SESSION['_csrf'] = $token;
