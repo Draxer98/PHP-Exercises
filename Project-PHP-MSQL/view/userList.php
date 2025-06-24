@@ -1,6 +1,6 @@
 <?php
 $currentOrderDir = $currentOrderDir === 'ASC' ? 'ASC' : 'DESC';
-require 'view/top.php';
+require 'view/header.php';
 require 'view/nav.php';
 ?>
 

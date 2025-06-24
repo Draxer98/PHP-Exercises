@@ -29,7 +29,7 @@ $orderBy = in_array($orderBy, $orderByColumns) ? $orderBy : 'id';
 
 $totalRecords = getTotalUserCount($search);
 
-require 'view/top.php';
+require 'view/header.php';
 require_once 'view/topBar.php';
 ?>
 

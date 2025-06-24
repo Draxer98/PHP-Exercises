@@ -124,7 +124,7 @@ function getUser(array $params = [])
         if (is_numeric($search)) {
             $sql .= " (id = $search OR age = $search)";
         } else {
-            $sql .= " (username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%' OR roleType like %$search%)";
+            $sql .= " (username like '%$search%' OR email like '%$search%' OR fiscalCode like '%$search%' OR roleType like '%$search%')";
         }
     }
     $sql .= " ORDER BY $orderBy $orderDir LIMIT $start,$limit";

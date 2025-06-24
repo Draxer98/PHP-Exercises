@@ -9,7 +9,7 @@ if (isUserLoggedin()) {
 $bytes = random_bytes(32);
 $token = bin2hex($bytes);
 $_SESSION['_csrf'] = $token;
-require_once 'view/top.php';
+require_once 'view/header.php';
 ?>
 <section class="container">
     <div id="loginform">

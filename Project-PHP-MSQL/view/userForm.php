@@ -6,7 +6,7 @@ if ($user && $user['id']) {
     $action = 'edit';
     $formTitle = 'UPDATE USER';
 }
-require 'view/top.php';
+require 'view/header.php';
 ?>
 <form action="controller/updateRecord.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $user['id'] ?>">
@@ -76,7 +76,7 @@ require 'view/top.php';
     </div>
     <div class="row mb-3 d-flex justify-content-center align-items-sm-center">
         <div class="col-sm-3">
-            <?php if (userCanDelete()) { ?>
+            <?php if (userCanUpdate()) { ?>
                 <button href="index.php" type="submit" class="btn btn-primary"> <?= $buttonName ?> </button>
             <?php } ?>
             <a href="index.php" class="btn btn-secondary"> Back to users </a>
