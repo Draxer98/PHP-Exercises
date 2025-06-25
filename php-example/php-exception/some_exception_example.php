@@ -1,6 +1,5 @@
 <?php
 
-// Eccezione personalizzata
 class CustomException extends Exception {}
 
 function testAllErrors() {
