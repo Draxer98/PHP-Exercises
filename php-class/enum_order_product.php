@@ -71,11 +71,11 @@ class Order
     public function updateStatus(OrderStatus $newStatus)
     {
         if ($this->status === OrderStatus::DELIVERED) {
-            echo "It is not possible to modify the order #$this->id: already delivered.\n";
+            echo "It is not possible to modify the order #{$this->id}: already delivered.\n";
             return;
         }
         $this->status = $newStatus;
-        echo "Status updated for order #$this->id to {$this->status->value} ";
+        echo "Status updated for order #{$this->id} to {$this->status->value} ";
     }
 
     public function __toString()
