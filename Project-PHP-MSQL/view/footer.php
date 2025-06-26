@@ -1,6 +1,6 @@
 <footer class="footer py-3 mt-auto bg-body-tertiary">
     <div class="container" Style="text-align: center">
-        <span class="text-body-secondary">@copyright 2025</span>
+        <span class="text-body-secondary">&copy all rights reserved</span>
     </div>
 </footer>
 
