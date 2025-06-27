@@ -17,8 +17,18 @@ class PostController
     public function show(int $postId = null)
     {
         if ($postId === null) {
-            $query = 'SELECT * FROM posts';
-            $stm = $this->conn->query($query, PDO::FETCH_OBJ);
+            $search = isset($_GET['q']) ? trim($_GET['q']) : '';
+            if ($search !== '') {
+                $query = 'SELECT * FROM posts WHERE title LIKE :search';
+                $stm = $this->conn->prepare($query);
+                $like = "%$search%";
+                $stm->bindParam(':search', $like, PDO::PARAM_STR);
+                $stm->execute();
+                echo "<h2>Risultati per: <em>" . htmlspecialchars($search) . "</em></h2>";
+            } else {
+                $query = 'SELECT * FROM posts';
+                $stm = $this->conn->query($query, PDO::FETCH_OBJ);
+            }
         } else {
             $query = 'SELECT * FROM posts WHERE id = :id';
             $stm = $this->conn->prepare($query);

@@ -47,16 +47,36 @@ $comments = $stmt_comments->fetchAll(PDO::FETCH_OBJ);
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><?= htmlspecialchars($post->title) ?></title>
-    <link rel="stylesheet" href="../../public/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../public/css/index.css" />
+    <link rel="stylesheet" href="../../public/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="postpage">
-    <a href="../../public/index.php" class="btn btn-secondary" style="position: absolute; top: 30px; right: 40px; z-index: 1000; ">
-        &larr; Back to home
-    </a>
+    <header>
+        <nav class="navbar navbar-expand-md navbar fixed-top navbar-color">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><i class="fa-solid fa-blog fa-2xl"></i></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item"><a class="nav-link active" href="../../public/index.php"> <i class="fa-solid fa-house"></i> Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container mt-5">
         <div class="post mb-5 p-5 bg-light rounded-3">
             <h2><?= htmlspecialchars($post->title) ?></h2>
@@ -79,10 +99,10 @@ $comments = $stmt_comments->fetchAll(PDO::FETCH_OBJ);
 
             <h4>Add a comment</h4>
             <form method="post" action="post.php?id=<?= $post->id ?>">
-                <div class="mb-5">
+                <div class="mb-4">
                     <textarea name="comment" class="form-control" placeholder="Add comment..." rows="4" required></textarea>
                 </div>
-                <div class="mb-5">
+                <div class="mb-4">
                     <input type="email" name="email" class="form-control" placeholder="Your email" required />
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Comment</button>
