@@ -8,6 +8,7 @@
                             <h2><?= htmlspecialchars($post->title) ?></h2>
                             <p><?= nl2br(htmlspecialchars($post->message ?? 'No content available')) ?></p>
                             <small>Published on: <?= $post->datecreated ? date('d-m-Y', strtotime($post->datecreated)) : 'Unknown date' ?></small>
+                            <a href="../app/view/post.php?id=<?= $post->id ?>" class="btn btn-info mt-2">Open</a>
                         </div>
                     </div>
                 <?php endforeach; ?>

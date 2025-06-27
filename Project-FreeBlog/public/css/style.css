@@ -31,8 +31,17 @@ body {
 h1 {
     text-align: center;
     margin-top: 20px;
-    font-size: 50px;
-    color: #489FB5;
+    font-size: 3rem;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    font-family: 'Modak', sans-serif;
+}
+
+.h3newpost {
+    text-align: center;
+    margin-top: 20px;
+    color: black;
     text-transform: uppercase;
     letter-spacing: 10px;
     font-family: 'Modak', sans-serif;
@@ -54,9 +63,124 @@ h1 {
 .post h2 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .post p {
     font-size: 16px;
     line-height: 1.6;
+}
+
+.postpage .container {
+    max-width: auto;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.postpage .post {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.postpage .post h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'Modak', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.postpage .post p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.postpage .post small {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.postpage hr {
+    border-color: #ddd;
+}
+
+.postpage .comments {
+    margin-top: 40px;
+}
+
+.postpage .comment {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.postpage .comment p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.postpage .comment small {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.postpage button[type="submit"] {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.postpage button[type="submit"]:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    cursor: pointer;
+}
+
+.postpage form {
+    margin-top: 30px;
+}
+
+.postpage textarea.form-control {
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 15px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.postpage input.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.postpage input.form-control:focus,
+.postpage textarea.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .postpage .post h2 {
+        font-size: 2rem;
+    }
+
+    .postpage .post p {
+        font-size: 1rem;
+    }
+
+    .postpage .container {
+        padding: 20px;
+    }
 }
