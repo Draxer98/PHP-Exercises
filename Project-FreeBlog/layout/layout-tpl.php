@@ -24,7 +24,7 @@ require 'header.php';
     </header>
 
     <main class="flex-shrink-0 pt-6">
-        <h1>BLOGGING ONLINE</h1>
+        <h1>BLOGGING ONLINE <i class="fa-solid fa-otter"></i> </h1>
         <div class="content">
             <?= $this->content ?>
         </div>

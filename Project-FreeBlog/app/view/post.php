@@ -96,7 +96,6 @@ $comments = $stmt_comments->fetchAll(PDO::FETCH_OBJ);
                     <p>No comments yet.</p>
                 <?php endif; ?>
             </div>
-
             <h4>Add a comment</h4>
             <form method="post" action="post.php?id=<?= $post->id ?>">
                 <div class="mb-4">
@@ -105,7 +104,7 @@ $comments = $stmt_comments->fetchAll(PDO::FETCH_OBJ);
                 <div class="mb-4">
                     <input type="email" name="email" class="form-control" placeholder="Your email" required />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit Comment</button>
+                <button class="btn btn-info" type="submit">Submit comment</button>
             </form>
         </div>
     </div>

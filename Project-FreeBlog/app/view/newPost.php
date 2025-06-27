@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['title']) && !empty($
                     <label for="postContent" class="form-label">Contenuto</label>
                     <textarea class="form-control" id="postContent" name="content" rows="6" placeholder="Write the content of the post here..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Publish</button>
+                <button type="submit" class="btn btn-info w-100">Publish</button>
             </form>
         </div>
     </main>
