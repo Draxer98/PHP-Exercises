@@ -1,28 +1,45 @@
 <?php
 session_start();
 
-$conn = new mysqli("192.168.60.144:3306", "michele_gaino", "scremerebbero.associavamo.", "michele_gaino_");
+$mysql = new mysqli("127.0.0.1", "michele_gaino", "1234", "db");
 
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
+if($mysql->connect_error) {
+    die($mysql->connect_error);
 }
 
-$stmt = $conn->prepare("SELECT admin FROM persona WHERE cf = ?");
-$stmt->bind_param("i", $_SESSION['codiceFiscale']);
+$user = $_SESSION['user'];
+$admin = 0;
+
+$stmt = $mysql->prepare("SELECT admin FROM persona WHERE admin = 1 AND user = ?");
+$stmt->bind_param("s", $user);
 $stmt->execute();
+$stmt->store_result();
 
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-if ($row['admin'] == -128) {
-    $stmt->close();
-    $stmt = $conn->prepare("SELECT cf FROM persona WHERE admin = ? AND cf = ?");
-    $stmt->bind_param("ii", $row['admin'], $_SESSION['codiceFiscale']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    echo "Administrator with cf: ".$row['cf']."<br>";
-} else {
-    $stmt->close();
-    echo "not administrator";
+if($stmt->num_rows > 0) {
+    $admin = 1;
 }
+$stmt->close();
+?>
+<html>
+    <head>
+        <title>
+            INDEX SPIAGGIA
+        </title>
+    </head>
+    <body>
+        <?php
+        if($admin == 1){
+            $stmt = $mysql->prepare("SELECT quantitaTeli FROM stagione");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['quantitaTeli'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+
+        }
+        ?>
+    </body>
+</html>

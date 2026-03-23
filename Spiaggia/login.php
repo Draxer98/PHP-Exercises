@@ -1,60 +1,45 @@
 <?php
 session_start();
 
-$conn = new mysqli("192.168.60.144:3306", "michele_gaino", "scremerebbero.associavamo.", "michele_gaino_");
+$mysql = new mysqli("127.0.0.1", "michele_gaino", "1234", "db");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if($mysql->connect_error) {
+    die($mysql->connect_error);
 }
 
-$message = "";
+if(isseT($_POST["login"])) {
+    $user = $_POST['user'];
+    $password = $_POST['password'];
 
-if (isset($_POST["login"])) {
-
-    $codiceFiscale = $_POST["codiceFiscale"];
-
-    $stmt = $conn->prepare("SELECT cf FROM persona WHERE cf = ?");
-    $stmt->bind_param("s", $codiceFiscale);
+    $stmt = $mysql->prepare("SELECT user FROM persona WHERE user = ? AND password = ?");
+    $stmt->bind_param("ss", $user, $password);
     $stmt->execute();
     $stmt->store_result();
 
-    if ($stmt->num_rows > 0) {
-
-        $stmt->bind_result($codiceFiscale);
+    if($stmt->num_rows > 0) {
+        $stmt->bind_result($user);
         $stmt->fetch();
-        $_SESSION['codiceFiscale'] = $codiceFiscale;
+        $_SESSION['user'] = $user;
         header("Location: index.php");
     } else {
-        $message = "Utente non trovato!";
+        echo "Utente non trovato, riprova";
     }
-
-    $stmt->close();
-
 }
 
-$conn->close();
+$mysql->close();
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-
-<body>
-
-<h2>LOGIN</h2>
-
-<form method="post">
-    <input type="text" name="codiceFiscale" required placeholder="CodiceFiscale"><br><br>
-    <button type="submit" name="login">LOGIN</button>
-</form>
-
-<br>
-<b style="color:red;">
-    <?php echo $message; ?>
-</b>
-
-</body>
-</html>
+<HTML>
+    <head>
+        <title>LOGIN SPIAGGIA</title>
+    </head>
+    <body>
+        <form method="post">
+            User:
+            <input type="text" name="user" required> <br>
+            Password:
+            <input type="text" name="password" required> <br>
+            <button type="submit" name="login"> LOGIN </button>
+        </form>
+    </body>
+</HTML>
